@@ -83,6 +83,23 @@ const ChristmasPromotion = {
         if (totalOriginPrice < 10000) return false;
         return true;
     },
+
+    /**
+     * @param {Date} visitDate
+     * @param {string[]} menus
+     * @param {number} totalOriginPrice
+     * @returns {[number, number, number, number, boolean]}
+     */
+    getSales(visitDate, menus, totalOriginPrice) {
+        if (!this.eventCommonValidate(visitDate, totalOriginPrice)) [0, 0, 0, 0, false];
+        return [
+            this.christmasDDaySale(visitDate),
+            this.weekdaySale(visitDate, menus),
+            this.weekendSale(visitDate, menus),
+            this.specialDaySale(visitDate),
+            this.giftEvent(totalOriginPrice),
+        ];
+    },
 };
 
 export default ChristmasPromotion;
