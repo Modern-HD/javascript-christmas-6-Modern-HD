@@ -31,6 +31,16 @@ const ChristmasPromotion = {
         if (!(visitDate.getDay() >= 5 && visitDate.getDay() <= 6)) return 0;
         return menus.filter(menu => Menu.get(menu).type === '메인').length * 2023;
     },
+
+    /**
+     * @param {Date} visitDate
+     * @returns {number}
+     */
+    specialDaySale(visitDate) {
+        const specialDate = new Set([3, 10, 17, 24, 25, 31]);
+        if (specialDate.has(visitDate.getDate())) return 1000;
+        return 0;
+    },
 };
 
 export default ChristmasPromotion;
