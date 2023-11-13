@@ -1,3 +1,4 @@
+import ChristmasPromotion from './ChristmasPromotion.js';
 import Menu from './Menu.js';
 
 const Calculator = {
@@ -14,7 +15,7 @@ const Calculator = {
      * @returns {number}
      */
     getTotalBenefitPrice(sales) {
-        sales[4] = sales[4] ? Menu.get('샴페인').price : 0;
+        sales[4] = sales[4] ? Menu.get(ChristmasPromotion.getGiftTarget()).price : 0;
         return sales.reduce((acc, cur) => acc + cur, 0);
     },
 };

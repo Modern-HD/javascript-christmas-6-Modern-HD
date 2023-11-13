@@ -1,5 +1,7 @@
 import Menu from './Menu.js';
 
+const GIFT_TARGET = '샴페인';
+
 const ChristmasPromotion = {
     /**
      * @param {Date} visitDate
@@ -99,6 +101,10 @@ const ChristmasPromotion = {
             this.specialDaySale(visitDate),
             this.giftEvent(totalOriginPrice),
         ];
+    },
+
+    getGiftTarget() {
+        return GIFT_TARGET;
     },
 };
 
