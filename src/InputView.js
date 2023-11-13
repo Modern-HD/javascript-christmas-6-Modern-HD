@@ -1,4 +1,5 @@
 import { MissionUtils } from '@woowacourse/mission-utils';
+import Menu from './Menu.js';
 
 const InputView = {
     /**
@@ -26,6 +27,25 @@ const InputView = {
     visitDateInputValidate(input) {
         if (!(input && input >= 1 && input <= 31)) {
             throw new Error('[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.');
+        }
+    },
+
+    /**
+     * @param {string} input
+     */
+    orderInputValidate(input) {
+        if (!MENU_EXP.test(input)) {
+            throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+        }
+        const splitted = this.menuInputSplit(input);
+        if (!splitted.every(([_, amount]) => amount && amount > 0)) {
+            throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+        }
+        if (!splitted.every(([menu]) => Menu.has(menu))) {
+            throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+        }
+        if (new Set(splitted.map(([menu]) => menu)).size !== splitted.length) {
+            throw new Error('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
         }
     },
 };
