@@ -41,6 +41,14 @@ const ChristmasPromotion = {
         if (specialDate.has(visitDate.getDate())) return 1000;
         return 0;
     },
+
+    /**
+     * @param {number} totalOriginPrice
+     * @returns {boolean}
+     */
+    giftEvent(totalOriginPrice) {
+        return totalOriginPrice >= 120_000;
+    },
 };
 
 export default ChristmasPromotion;
