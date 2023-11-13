@@ -1,6 +1,7 @@
 import Menu from '../src/Menu';
 import Calculator from '../src/Calculator';
 import ChristmasPromotion from '../src/ChristmasPromotion';
+import InputView from '../src/InputView';
 
 /**
  * @typedef {{ type: string, price: number }} Menu
@@ -151,6 +152,124 @@ describe('단위 테스트', () => {
 
         inputs.forEach((input, i) => {
             expect(ChristmasPromotion.badgeEvent(input)).toEqual(expectResult[i]);
+        });
+    });
+
+    test('음료만 주문할 시, 예외가 발생한다.', () => {
+        const inputs = [['제로콜라'], ['제로콜라', '레드와인'], ['샴페인', '샴페인']];
+
+        inputs.forEach(input => {
+            expect(() => {
+                ChristmasPromotion.orderCommonValidate(input);
+            }).toThrow('[ERROR] 음료만 주문 할 수 없습니다.');
+        });
+    });
+
+    test('크리스마스 디데이 할인을 제외한 다른 이벤트는 2023.12.1 ~ 2023.12.31에만 적용한다.', () => {
+        const inputs = [
+            new Date('2023-11-30'),
+            new Date('2023-12-01'),
+            new Date('2023-12-15'),
+            new Date('2023-12-31'),
+            new Date('2024-01-01'),
+        ];
+
+        const expectResult = [false, true, true, true, false];
+
+        inputs.forEach((input, i) => {
+            expect(ChristmasPromotion.eventCommonValidate(input, 10000)).toEqual(expectResult[i]);
+        });
+    });
+
+    test('총주문 금액 10,000원 미만일 시 이벤트를 적용하지 않는다.', () => {
+        const inputs = [5000, 9999, 10000, 15000];
+
+        const expectResult = [false, false, true, true];
+
+        inputs.forEach((input, i) => {
+            expect(ChristmasPromotion.eventCommonValidate(new Date('2023-12-15'), input)).toEqual(expectResult[i]);
+        });
+    });
+
+    test('메뉴가 20개 초과 시, 예외가 발생한다.', () => {
+        const input = [...Array(21)].fill('바비큐립');
+
+        expect(() => {
+            ChristmasPromotion.orderCommonValidate(input);
+        }).toThrow('[ERROR] 메뉴를 20개를 초과하여 주문할 수 없습니다.');
+    });
+
+    test('방문할 날짜가 1 이상 31 이하의 숫자가 아닌 경우, 예외가 발생한다.', () => {
+        const inputs = [-1, 0, 32, 50, NaN];
+
+        inputs.forEach(input => {
+            expect(() => {
+                InputView.visitDateInputValidate(input);
+            }).toThrow('[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.');
+        });
+    });
+
+    test('메뉴 형식이 알맞지 않은 경우, 예외가 발생한다.', () => {
+        const inputs = [
+            '',
+            '타파스:1,시저샐러드-2',
+            '타파스-1,제로콜라-1,샴페인',
+            '바비큐립--2',
+            '타파스-10제로콜라-20',
+        ];
+
+        inputs.forEach(input => {
+            expect(() => {
+                InputView.orderInputValidate(input);
+            }).toThrow('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+        });
+    });
+
+    test('메뉴의 개수에 1 이하의 숫자가 입력되는 경우, 예외가 발생한다.', () => {
+        const inputs = ['타파스-0', '양송이수프-1,바비큐립-0', '크리스마스파스타-3,제로콜라-0,레드와인-1'];
+
+        inputs.forEach(input => {
+            expect(() => {
+                InputView.orderInputValidate(input);
+            }).toThrow('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+        });
+    });
+
+    test('고객이 메뉴판에 없는 메뉴를 입력하는 경우, 예외가 발생한다.', () => {
+        const inputs = ['돈까스-1', '양송이수프-1,제육볶음-2', '타파스-1,돼지국밥-1,아이스크림-2'];
+
+        inputs.forEach(input => {
+            expect(() => {
+                InputView.orderInputValidate(input);
+            }).toThrow('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+        });
+    });
+
+    test('중복 메뉴를 입력한 경우, 예외가 발생한다.', () => {
+        const inputs = [
+            '타파스-1,타파스-1',
+            '시저샐러드-1,크리스마스파스타-1,크리스마스파스타-2,제로콜라-1',
+            '바비큐립-2,제로콜라-1,제로콜라-1',
+        ];
+
+        inputs.forEach(input => {
+            expect(() => {
+                InputView.orderInputValidate(input);
+            }).toThrow('[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.');
+        });
+    });
+
+    test('메뉴를 올바르게 입력하면, 예외가 발생하지 않는다.', () => {
+        const inputs = [
+            '바비큐립-1',
+            '양송이수프-20',
+            '타파스-3,시저샐러드-1,바비큐립-2,크리스마스파스타-2,아이스크림-4,제로콜라-4',
+        ];
+
+        inputs.forEach(input => {
+            expect(() => {
+                InputView.orderInputValidate(input);
+            }).not.toThrow();
         });
     });
 });
