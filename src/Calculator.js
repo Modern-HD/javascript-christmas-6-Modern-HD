@@ -8,6 +8,15 @@ const Calculator = {
     getTotalOriginPrice(menus) {
         return menus.reduce((acc, cur) => acc + Menu.get(cur).price, 0);
     },
+
+    /**
+     * @param {[number, number, number, number, boolean]} sales
+     * @returns {number}
+     */
+    getTotalBenefitPrice(sales) {
+        sales[4] = sales[4] ? Menu.get('샴페인').price : 0;
+        return sales.reduce((acc, cur) => acc + cur, 0);
+    },
 };
 
 export default Calculator;
