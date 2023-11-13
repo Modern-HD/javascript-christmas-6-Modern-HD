@@ -54,6 +54,21 @@ const OutputView = {
         }
         MissionUtils.Console.print('');
     },
+
+    /**
+     * @param {number} totalOriginPrice
+     * @param {number} totalBenefitPrice
+     * @param {boolean} isGift
+     */
+    printBenefitPrice(totalOriginPrice, totalBenefitPrice, isGift) {
+        MissionUtils.Console.print('<총혜택 금액>');
+        MissionUtils.Console.print(`${this.currencyFormat(totalBenefitPrice * -1)}원`);
+        MissionUtils.Console.print('');
+        MissionUtils.Console.print('<할인 후 예상 결제 금액>');
+        if (isGift) totalBenefitPrice -= Menu.get('샴페인').price;
+        MissionUtils.Console.print(`${this.currencyFormat(totalOriginPrice - totalBenefitPrice)}원`);
+        MissionUtils.Console.print('');
+    },
 };
 
 export default OutputView;
