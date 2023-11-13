@@ -17,6 +17,15 @@ const OutputView = {
         }, 1);
         MissionUtils.Console.print('');
     },
+
+    /**
+     * @param {number} totalOriginPrice
+     */
+    printTotalPriceBeforeSale(totalOriginPrice) {
+        MissionUtils.Console.print('<할인 전 총주문 금액>');
+        MissionUtils.Console.print(`${this.currencyFormat(totalOriginPrice)}원`);
+        MissionUtils.Console.print('');
+    },
 };
 
 export default OutputView;
