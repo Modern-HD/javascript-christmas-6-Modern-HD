@@ -26,6 +26,15 @@ const OutputView = {
         MissionUtils.Console.print(`${this.currencyFormat(totalOriginPrice)}원`);
         MissionUtils.Console.print('');
     },
+
+    /**
+     * @param {boolean} isGift
+     */
+    printGift(isGift) {
+        MissionUtils.Console.print('<증정 메뉴>');
+        MissionUtils.Console.print(isGift ? '샴페인 1개' : '없음');
+        MissionUtils.Console.print('');
+    },
 };
 
 export default OutputView;
