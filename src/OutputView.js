@@ -1,4 +1,5 @@
 import { MissionUtils } from '@woowacourse/mission-utils';
+import ChristmasPromotion from './ChristmasPromotion.js';
 import Menu from './Menu.js';
 
 const OutputView = {
@@ -68,6 +69,14 @@ const OutputView = {
         if (isGift) totalBenefitPrice -= Menu.get('샴페인').price;
         MissionUtils.Console.print(`${this.currencyFormat(totalOriginPrice - totalBenefitPrice)}원`);
         MissionUtils.Console.print('');
+    },
+
+    /**
+     * @param {number} totalBenefitPrice
+     */
+    printBadge(totalBenefitPrice) {
+        MissionUtils.Console.print('<12월 이벤트 배지>');
+        MissionUtils.Console.print(ChristmasPromotion.badgeEvent(totalBenefitPrice) || '없음');
     },
 };
 
