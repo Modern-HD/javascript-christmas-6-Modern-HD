@@ -8,6 +8,26 @@ const OutputView = {
     },
 
     /**
+     * @param {Date} visitDate
+     * @param {string[]} menus
+     * @param {number} totalOriginPrice
+     * @param {number} totalBenefitPrice
+     * @param {[number, number, number, number, boolean]} sales
+     */
+    printResult(visitDate, menus, totalOriginPrice, totalBenefitPrice, sales) {
+        MissionUtils.Console.print(
+            `${visitDate.getMonth() + 1}월 ${visitDate.getDate()}일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!`
+        );
+        MissionUtils.Console.print('');
+        this.printMenu(menus);
+        this.printTotalPriceBeforeSale(totalOriginPrice);
+        this.printGift(sales[4]);
+        this.printBenefits(sales);
+        this.printBenefitPrice(totalOriginPrice, totalBenefitPrice, sales[4]);
+        this.printBadge(totalBenefitPrice);
+    },
+
+    /**
      * @param {string[]} menus
      */
     printMenu(menus) {
@@ -77,6 +97,14 @@ const OutputView = {
     printBadge(totalBenefitPrice) {
         MissionUtils.Console.print('<12월 이벤트 배지>');
         MissionUtils.Console.print(ChristmasPromotion.badgeEvent(totalBenefitPrice) || '없음');
+    },
+
+    /**
+     * @param {number} amount
+     * @returns {string}
+     */
+    currencyFormat(amount) {
+        return amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
     },
 };
 
