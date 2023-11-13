@@ -1,4 +1,5 @@
 import Menu from '../src/Menu';
+import Calculator from '../src/Calculator';
 
 /**
  * @typedef {{ type: string, price: number }} Menu
@@ -39,6 +40,27 @@ describe('단위 테스트', () => {
 
         inputs.forEach((input, i) => {
             expect(Menu.get(input)).toEqual(expectResult[i]);
+        });
+    });
+
+    test('주문한 메뉴의 총 가격을 구하는 기능', () => {
+        /** @type {string[]} */
+        const input = ['양송이수프', '티본스테이크', '초코케이크', '아이스크림', '샴페인'];
+
+        expect(Calculator.getTotalOriginPrice(input)).toEqual(106000);
+    });
+
+    test('총혜택 금액을 계산하는 기능', () => {
+        const inputs = [
+            [0, 0, 0, 0, false],
+            [2300, 0, 2023, 0, false],
+            [1200, 4046, 0, 1000, true],
+        ];
+
+        const expectResult = [0, 4323, 31246];
+
+        inputs.forEach((input, i) => {
+            expect(Calculator.getTotalBenefitPrice(input)).toEqual(expectResult[i]);
         });
     });
 });
