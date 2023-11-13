@@ -60,6 +60,29 @@ const ChristmasPromotion = {
         if (totalBenefitPrice >= 5000) return '별';
         return false;
     },
+
+    /**
+     * @param {string[]} menus
+     */
+    orderCommonValidate(menus) {
+        if (menus.filter(menu => Menu.get(menu).type === '음료').length === menus.length) {
+            throw new Error('[ERROR] 음료만 주문 할 수 없습니다.');
+        }
+        if (menus.length > 20) {
+            throw new Error('[ERROR] 메뉴를 20개를 초과하여 주문할 수 없습니다.');
+        }
+    },
+
+    /**
+     * @param {Date} visitDate
+     * @param {number} totalOriginPrice
+     * @returns {boolean}
+     */
+    eventCommonValidate(visitDate, totalOriginPrice) {
+        if (!(visitDate >= new Date('2023-12-01') && visitDate < new Date('2024-01-01'))) return false;
+        if (totalOriginPrice < 10000) return false;
+        return true;
+    },
 };
 
 export default ChristmasPromotion;
