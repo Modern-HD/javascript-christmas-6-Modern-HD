@@ -93,7 +93,7 @@ const ChristmasPromotion = {
      * @returns {[number, number, number, number, boolean]}
      */
     getSales(visitDate, menus, totalOriginPrice) {
-        if (!this.eventCommonValidate(visitDate, totalOriginPrice)) [0, 0, 0, 0, false];
+        if (!this.eventCommonValidate(visitDate, totalOriginPrice)) return [0, 0, 0, 0, false];
         return [
             this.christmasDDaySale(visitDate),
             this.weekdaySale(visitDate, menus),
